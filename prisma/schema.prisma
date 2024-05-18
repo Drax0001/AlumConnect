@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// model User {
+//   id    Int     @id @default(autoincrement())
+//   username String @unique
+//   email String  @unique
+//   name  String?
+//   biography String?
+//   profilepicture String?
+// }
+
+model Student {
+  id                Int                 @id @default(autoincrement())
+  username          String              @unique
+  email             String              @unique
+  academicProgram   AcademicProgram?    @relation(fields: [academicProgramId], references: [id])
+  academicProgramId Int?
+  MentorshipRequest MentorshipRequest[]
+  AreasOfFocus      String[]
+}
+
+model AcademicProgram {
+  id         Int       @id @default(autoincrement())
+  faculty    String
+  department String
+  program    String
+  Student    Student[]
+}
+
+model Alumni {
+  id                    Int                 @id @default(autoincrement())
+  username              String              @unique
+  email                 String              @unique
+  skills                String[]
+  mentorshipPreferences String[]
+  jobTitle              String
+  Blog                  Blog[]
+  Event                 Event[]
+  MentorshipRequest     MentorshipRequest[]
+  AreasOfFocus          String[]
+}
+
+model Blog {
+  id       Int     @id @default(autoincrement())
+  title    String
+  body  String?
+  author   Alumni  @relation(fields: [authorId], references: [id])
+  authorId Int
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  author      Alumni   @relation(fields: [authorId], references: [id])
+  authorId    Int
+  datetime    DateTime
+  thumbnail   String
+  tags        String[]
+  location    String
+  Category    String
+}
+
+model MentorshipRequest {
+  id         Int      @id @default(autoincrement())
+  sender     Student? @relation(fields: [senderID], references: [id])
+  senderID   Int
+  receiver   Alumni?  @relation(fields: [receiverID], references: [id])
+  receiverID Int
+  status     String
+  timestamp  DateTime @default(now())
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  senderID   Int
+  receiverID Int
+  content    String
+  timestamp  DateTime @default(now())
+
+  //Sender Relation
+  // sender Student?  @relation("Sender", fields: [senderID], references: [id])
+  // senderAlumni Alumni?  @relation("Sender", fields: [senderID], references: [id])
+
+  // //Receiver Relation
+  // receiver Student?  @relation("Receiver", fields: [receiverID], references: [id])
+  // receiverAlumni Alumni?  @relation("Receiver", fields: [receiverID], references: [id])
+}
