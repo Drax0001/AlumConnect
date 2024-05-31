@@ -16,6 +16,6 @@ export async function POST(request: NextRequest) {
     } else {
         const { password, ...studentWithoutPassword } = student
 
-        return NextResponse.json({ data: studentWithoutPassword, message: 'User Successfully Logged in' }, { status: 200, statusText: 'Login Successful' })
+        return NextResponse.json({ data: studentWithoutPassword, message: 'Student Successfully Logged in' }, { status: 200, statusText: 'Login Successful' })
     }
 }

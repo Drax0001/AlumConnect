@@ -32,6 +32,7 @@ model Student {
   academicProgramId Int?
   MentorshipRequest MentorshipRequest[]
   AreasOfFocus      String[]
+  events            Event[]             @relation("EventAttendees")
 }
 
 model AcademicProgram {
@@ -65,16 +66,17 @@ model Blog {
 }
 
 model Event {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   title       String
   description String?
-  author      Alumni   @relation(fields: [authorId], references: [id])
+  author      Alumni    @relation(fields: [authorId], references: [id])
   authorId    Int
   datetime    DateTime
   thumbnail   String
   tags        String[]
   location    String
-  Category    String
+  category    String
+  attendees   Student[] @relation("EventAttendees")
 }
 
 model MentorshipRequest {
