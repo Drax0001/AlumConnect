@@ -6,7 +6,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  previewFeatures = ["driverAdapters", "omitApi"]
 }
 
 datasource db {
@@ -27,6 +27,7 @@ model Student {
   id                Int                 @id @default(autoincrement())
   username          String              @unique
   email             String              @unique
+  password          String              @default("tempPassword")
   academicProgram   AcademicProgram?    @relation(fields: [academicProgramId], references: [id])
   academicProgramId Int?
   MentorshipRequest MentorshipRequest[]
@@ -45,6 +46,7 @@ model Alumni {
   id                    Int                 @id @default(autoincrement())
   username              String              @unique
   email                 String              @unique
+  password              String              @default("tempPassword")
   skills                String[]
   mentorshipPreferences String[]
   jobTitle              String
@@ -57,7 +59,7 @@ model Alumni {
 model Blog {
   id       Int     @id @default(autoincrement())
   title    String
-  body  String?
+  body     String?
   author   Alumni  @relation(fields: [authorId], references: [id])
   authorId Int
 }

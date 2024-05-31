@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from '../../../config/dbConnect';
 
-
 interface Props {
     params: {
         id: number
@@ -10,11 +9,11 @@ interface Props {
 
 export async function GET(request: NextRequest, { params }: Props) {
 
-    const event = await prisma.event.findUnique({
+    const student = await prisma.student.findUnique({
         where: {
             id: params.id
         }
     })
 
-    return NextResponse.json({data: {event}, message: 'Event Sent' }, { status: 200, statusText: 'request successful' })
+    return NextResponse.json({data: student, message: 'Student profile sent OK'}, { status: 200, statusText: 'request successful' })
 }

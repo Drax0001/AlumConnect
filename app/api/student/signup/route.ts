@@ -1,25 +1,27 @@
-import { Pool } from 'pg'
-import { PrismaPg } from '@prisma/adapter-pg'
-import { PrismaClient } from '@prisma/client'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse} from 'next/server'
+import { prisma } from '../../config/dbConnect';
 
-const connectionString = `${process.env.DATABASE_URL}`
+export async function POST(request: NextRequest) {
+  const body = await request.json()
 
-const pool = new Pool({ connectionString })
-const adapter = new PrismaPg(pool)
-export const prisma = new PrismaClient({ adapter })
+  const student = await prisma.student.findUnique({
+    where: {
+      email: body.email
+    }
+  })
 
+  if (student) 
+    return NextResponse.json({ error: 'Email already in use'}, { status: 400, statusText: 'Bad Request' })
 
-export async function GET() {
-    // const data = await prisma.user.findMany()
-   
-    return Response.json({ 
-      message: "test"
-    })
-  }
+  const newStudent = await prisma.student.create({
+    data: {
+      email: body.email,
+      username: body.username,
+      password: body.password
+    }
+  })
 
-// export async function POST(NextRequest: NextRequest) {
-//   const data = NextRequest.body
+  const { password, ...studentWithoutPassword } = newStudent
 
-//   return Response.json(data)
-// }
+  return NextResponse.json({ data: studentWithoutPassword, message: 'Signup successful' }, { status: 201, statusText: 'User Created Successfully' })
+}
