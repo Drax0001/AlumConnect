@@ -28,20 +28,20 @@ model Student {
   username          String              @unique
   email             String              @unique
   password          String              @default("tempPassword")
-  academicProgram   AcademicProgram?    @relation(fields: [academicProgramId], references: [id])
-  academicProgramId Int?
+  faculty           String?
+  department        String?
   MentorshipRequest MentorshipRequest[]
   AreasOfFocus      String[]
   events            Event[]             @relation("EventAttendees")
 }
 
-model AcademicProgram {
-  id         Int       @id @default(autoincrement())
-  faculty    String
-  department String
-  program    String
-  Student    Student[]
-}
+// model AcademicProgram {
+//   id         Int       @id @default(autoincrement())
+//   faculty    String
+//   department String
+//   program    String
+//   Student    Student[]
+// }
 
 model Alumni {
   id                    Int                 @id @default(autoincrement())
@@ -51,18 +51,19 @@ model Alumni {
   skills                String[]
   mentorshipPreferences String[]
   jobTitle              String
-  Blog                  Blog[]
-  Event                 Event[]
+  Blogs                 Blog[]
+  Events                Event[]
   MentorshipRequest     MentorshipRequest[]
   AreasOfFocus          String[]
 }
 
 model Blog {
-  id       Int     @id @default(autoincrement())
-  title    String
-  body     String?
-  author   Alumni  @relation(fields: [authorId], references: [id])
-  authorId Int
+  id        Int      @id @default(autoincrement())
+  title     String
+  body      String?
+  author    Alumni   @relation(fields: [authorId], references: [id])
+  authorId  Int
+  createdAt DateTime @default(now())
 }
 
 model Event {
@@ -71,12 +72,13 @@ model Event {
   description String?
   author      Alumni    @relation(fields: [authorId], references: [id])
   authorId    Int
-  datetime    DateTime
-  thumbnail   String
+  date        String
+  time        String
   tags        String[]
   location    String
   category    String
   attendees   Student[] @relation("EventAttendees")
+  createdAt   DateTime  @default(now())
 }
 
 model MentorshipRequest {

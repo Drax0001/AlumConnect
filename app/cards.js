@@ -17,3 +17,21 @@ export const landingCards = [
         icon: <FaShieldAlt className='text-primary' size={25} />
     }
 ]
+
+export const resourceCards = [
+    {
+        title: 'Career Advice',
+        description: 'Explore tips and strategies for career development',
+        author: 'Jane Sith'
+    },
+    {
+        title: 'Networking Events',
+        description: 'Connect with fellow alumni and industry professionals',
+        author: 'Jane Sith'
+    },
+    {
+        title: 'Skill Development',
+        description: 'Enhance your skills with workshops and online courses',
+        author: 'Jane Sith'
+    }
+]

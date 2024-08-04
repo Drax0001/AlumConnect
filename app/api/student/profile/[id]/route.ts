@@ -9,11 +9,21 @@ interface Props {
 
 export async function GET(request: NextRequest, { params }: Props) {
 
-    const student = await prisma.student.findUnique({
-        where: {
-            id: params.id
-        }
-    })
+    try {
+        const student = await prisma.student.findUnique({
+            where: {
+                id: Number(params.id)
+            },
+            omit: {
+                password: true
+            }
+        })
 
-    return NextResponse.json({data: student, message: 'Student profile sent OK'}, { status: 200, statusText: 'request successful' })
+        return NextResponse.json({ data: student, message: 'Student profile sent OK' }, { status: 200, statusText: 'request successful' })
+
+    } catch(err) {
+        console.log(err)
+        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 })
+    }
+
 }

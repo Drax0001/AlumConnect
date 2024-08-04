@@ -10,11 +10,29 @@ interface Props {
 
 export async function GET(request: NextRequest, { params }: Props) {
 
-    const event = await prisma.event.findUnique({
-        where: {
-            id: params.id
-        }
-    })
+    try {
+        const event = await prisma.event.findUnique({
+            where: {
+                id: Number(params.id)
+            },
+            include: {
+                attendees: true,
+                author: {
+                    omit: {
+                        password: true
+                    }
+                }
+            }
+        })
 
-    return NextResponse.json({data: {event}, message: 'Event Sent' }, { status: 200, statusText: 'request successful' })
+        if(!event) {
+            return NextResponse.json({ message: 'Event Not Found'}, { status: 404 })
+        }
+
+        return NextResponse.json({data: event, message: 'Event Sent' }, { status: 200, statusText: 'request successful' })
+    } catch(err) {
+        console.log(err)
+        return NextResponse.json({ message: 'Internal server error' }, { status: 500 })
+    }
+
 }

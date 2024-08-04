@@ -10,7 +10,7 @@ interface Props {
 
 const LandingCard = ({ title, description, icon }: Props) => {
   return (
-    <div className='p-6 flex flex-col gap-y-6 shadow-xl max-w-80 rounded-md'>
+    <div className='p-6 flex flex-col gap-y-6 shadow-xl max-w-80 rounded-md md:w-full'>
       <div className='flex space-x-3 items-center'>
         {icon}
         <h1 className='font-inter'>{title}</h1>

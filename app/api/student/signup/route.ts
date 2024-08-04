@@ -31,7 +31,10 @@ export async function POST(request: NextRequest) {
     data: {
       email: body.email,
       username: body.username,
-      password: hashedPassword
+      password: hashedPassword,
+      AreasOfFocus: body.areasOfFocusArray,
+      faculty: body.faculty,
+      department: body.department
     }
   })
 

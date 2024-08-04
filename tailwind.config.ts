@@ -7,6 +7,13 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {  //Desktop first approach
+      '2xl': {'max': '1535px'},
+      'xl': {'max': '1279px'},
+      'lg': {'max': '1023px'},
+      'md': {'max': '767px'},
+      'sm': {'max': '639px'}
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -20,10 +27,11 @@ const config: Config = {
       colors: {
         primary: '#007058',
         primaryLight: '#c9daa6',
+        primaryLight2: '#f0f8ff',
         tertiary: '#663634',
         textGray: '#777777',
         backgroundGray: '#DDDDDD'
-      }
+      },
     },
   },
   plugins: [],

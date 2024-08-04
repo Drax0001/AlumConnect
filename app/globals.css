@@ -30,6 +30,10 @@
   .active {
     @apply bg-primary text-white font-bold
   }
+
+  .profile--active {
+    @apply underline text-primary font-bold
+  }
 }
 
 

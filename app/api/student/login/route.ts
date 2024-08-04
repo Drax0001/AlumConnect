@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET)
     const alg = 'HS256'
 
-    const jwt = await new jose.SignJWT({})
+    const jwt = await new jose.SignJWT(student)
         .setProtectedHeader({ alg })
         .setExpirationTime("72h")
         .setSubject(student.id.toString())
